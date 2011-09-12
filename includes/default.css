@@ -1,0 +1,317 @@
+/* The following CSS markup handling the positioning of body, menu and footer
+ * was based heavily off of the computer science look and feel as of summer 2008, 
+ * with some influences from the University of Waterloo CLF spec.
+ *
+ * The basic horizontal menubar with highlighting for link hovering is based on 
+ * http://css.maxdesign.com.au/listamatic/horizontal03.htm
+ */
+
+html {
+   font-family: arial, helvetica, sans-serif;
+   margin: 0;
+   border: none;
+   padding: 0;
+
+   /* Put in a background image and make sure it doesn't scroll 
+    * behind the menu with the rest of the page.
+    * Since the image is dark, make the text over top of it bright
+    */
+   background-color: #036;
+   background-image: url('/includes/background');
+   background-attachment: fixed;
+   color: #FFF;
+}
+
+body {
+   min-width: 400px;
+   padding: 1.3ex;
+
+   /* Move the body away from the header/menu bar at the top;
+      this will be forced into place "outside" of the body */
+/*   margin-top: 70px; */
+ 
+   /* Add a stylish border around this */
+   margin: 4px;
+   border: 1px solid #CCC;
+
+}
+
+/* normalize monospace sizing
+ * en.wikipedia.org/wiki/MediaWiki_talk:Common.css/Archive_11#Teletype_style_fix_for_Chrome
+ */
+tt, pre, code, kbd, samp { 
+   font-family: monospace, sans-serif;
+}
+
+
+/* Make sure that floating images do not bleed into stdinfo */
+#stdinfo {
+   clear: both;
+}
+
+#stdinfo #menu {
+   position: fixed;
+   left: 0;
+   top: 0;
+   min-width: 100%;
+
+   /* Make the body scroll behind the menu */
+   z-index: 1;
+   background-color: #036;
+   background-image: url('/includes/background');
+   border-bottom: 1px solid #CCC;
+
+   /* Required to keep the "scroll-behind" effect working in Safari (4.0.3) */
+   opacity: 1; 
+}
+
+
+#stdinfo #menu * {
+   vertical-align:middle;
+}
+
+#stdinfo #home {
+   float: right 
+}
+
+#stdinfo #menu ul {
+   margin: 0;
+   padding: 0;
+   width: 100%;
+   height: 35px;
+   display: block;
+
+   /* Attempting not to have menus line wrap */
+   white-space:nowrap;
+}
+
+#stdinfo #menu ul li {
+   display: inline;
+}
+
+
+#stdinfo #menu li a, #stdinfo #home a {
+   padding: 0.2em 1em;
+   color: #FFF;
+   text-decoration: none;
+   float: left;
+
+   /* Provide an outline colour for the menu items.
+    * Round the edges a bit in browsers that support it.
+    */
+   border: 3px solid #58B;
+   -webkit-border-radius: 3px;
+   -moz-border-radius: 3px;
+   border-radius: 3px;
+
+   /* A height of 23px displays beautifully in Chrome.
+    * Unfortunately, 22px is required for proper display in Firefox.
+    * Unfortunately, 21px is required in IE. :(
+    * Unfortunately, 20px is required in IE 9. :( :(
+    */
+   height: 20px;
+   line-height: 20px;
+   margin: 1px;
+
+}
+
+a {
+   /* Make hover-over highlights etc. slightly delayed */
+   -webkit-transition: background-color .3s;
+   -moz-transition: background-color .3s;
+   -o-transition: background-color .3s;
+   transition: background-color .3s;
+
+   /* Maybe this will work in the future? */
+   -webkit-transition: -webkit-tap-highlight-color .3s;
+}
+
+
+/* Subtle animation for menu highlight */
+@-webkit-keyframes shimmer {
+   0% {
+      border: 3px solid #58B;
+   }
+   100% {
+      border: 3px solid #9CF;
+   }
+}
+@-moz-keyframes shimmer {
+   0% {
+      border: 3px solid #58B;
+   }
+   100% {
+      border: 3px solid #9CF;
+   }
+}
+
+
+#stdinfo #menu li a:hover, #stdinfo #home a:hover {
+   -webkit-animation-name: shimmer;
+   -webkit-animation-duration: 1.5s;
+   -webkit-animation-iteration-count: infinite;
+   -webkit-animation-direction: alternate;
+   -webkit-animation-timing-function: ease-in-out; 
+
+   -moz-animation-name: shimmer;
+   -moz-animation-duration: 1.5s;
+   -moz-animation-iteration-count: infinite;
+   -moz-animation-direction: alternate;
+   -moz-animation-timing-function: ease-in-out;
+}
+
+
+
+#stdinfo #menu ul li.external a:before {
+   content: "\00BB \0020";
+}
+
+
+#stdinfo #menu li.base *, #stdinfo #home * {
+   background-color: rgba(51, 102, 153, 0.5);
+}
+
+/* Override home and base with a gradient, if supported */
+#stdinfo #home * { 
+   background: -webkit-radial-gradient(top right, ellipse, rgba(51, 102, 153, 1), rgba(51, 102, 153, 0));
+   background: -moz-radial-gradient(top right, ellipse, rgba(51, 102, 153, 1), rgba(51, 102, 153, 0));
+}
+
+#stdinfo #menu li.base * {
+   background: -webkit-radial-gradient(top left, ellipse, rgba(51, 102, 153, 1), rgba(51, 102, 153, 0));
+   background: -moz-radial-gradient(top left, ellipse, rgba(51, 102, 153, 1), rgba(51, 102, 153, 0));
+}
+
+#stdinfo #menu li.current * {
+   background-color: rgb(51, 102, 153);
+}
+
+/* Provide hover/active colours on the menu, and more subtle ones
+for links elsewhere. */
+
+#stdinfo #menu a:hover {
+   background-color: #69C;
+}
+
+#stdinfo #menu a:active {
+   background-color: #9CF;
+}
+
+a:hover
+{
+   background-color: rgba(102, 153, 204, 0.19);
+}
+
+a:active
+{
+   background-color: rgba(153, 204, 255, 0.25);
+}
+
+/* There's no concept of hovering, but show iP(od|ad|hone) 
+ * an appropriate highlight colour for taps.
+ */
+a {
+   -webkit-tap-highlight-color: rgba(153, 204, 255, 0.25);
+}
+
+
+
+
+#stdinfo #footer {
+   position: relative;
+   top: -8px;
+   margin: 0;
+   padding: 1ex;
+}
+
+#stdinfo #footer .validation img {
+   width: 88px;
+   height: 31px;
+   float: left;
+   padding: 3px;
+}
+
+#stdinfo #footer p {
+   font-size: 80%;
+   color: #CCC;
+   text-align: center;
+   clear: both;
+   padding: 0;
+}
+
+#stdinfo #footer .lastModified {
+   padding-top: 1.5ex;
+   margin: 0;
+   clear: none;
+}
+
+
+
+
+
+/* Other general styles */
+
+a {
+   color: #FFFFFF;
+}
+
+h1 {
+   padding-top: 0;
+   margin-top: 0.5ex;
+   font-variant: small-caps;
+}
+
+/* For debugging error output */
+strong.error {
+   font-weight: 900;
+   color: #BB1111;
+}
+
+/* Rare browsers want to underline images that are links;
+ * explicitly stop them from doing this.
+ */
+#stdinfo a img {
+   text-decoration: none;
+   border: 0;
+   outline: none;
+}
+
+
+
+/* Height controllers 
+ * The top of the body should touch the bottom of the menu.
+ * Any page that has a menu as a member of class menuX should have
+ * a corresponding body in class menuX.
+ */
+body.menu0 {
+   margin-top: 0px;
+}
+body.menu1 {
+   margin-top: 35px;
+}
+body.menu2 {
+   margin-top: 70px;
+}
+body.menu3 {
+   margin-top: 105px;
+}
+body.menu4 {
+   margin-top: 140px;
+}
+
+
+#stdinfo div#menu.menu0 {
+   height: 0px;
+}
+#stdinfo div#menu.menu1 {
+   height: 35px;
+}
+#stdinfo div#menu.menu2 {
+   height: 70px;
+}
+#stdinfo div#menu.menu3 {
+   height: 105px;
+}
+#stdinfo div#menu.menu4 {
+   height: 140px;
+}

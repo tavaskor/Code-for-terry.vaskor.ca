@@ -1,0 +1,37 @@
+/* This file primarily contains special formatting for the
+ * source code boxes.
+ */
+
+.source_code {
+   border: 3px inset #888;
+}
+
+.source_code * {
+   margin: 0px;
+   padding: 0.5em;
+}
+
+.source_header {
+   font-size: 110%;
+   background: rgba(0, 77, 169, 0.3);
+   border-bottom: 3px dotted #888;
+}
+
+.source_body {
+   background: rgba(0, 77, 169, 0.1);
+}
+
+.source_body pre {
+   padding: 0px;
+   margin: 0px;
+}
+
+
+/* This highlight becomes very pronounced in the source link.
+ * Keep the same colour, but make it *very* transparent to keep
+ * the effect more subtle.
+ */
+
+.source_code a:hover {
+   background-color: rgba(102, 153, 204, 0.05);
+}

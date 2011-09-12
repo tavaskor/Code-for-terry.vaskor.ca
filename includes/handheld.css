@@ -1,0 +1,79 @@
+/* This style sheet should be included both for iphones and for standard
+ * handheld devices. */
+
+/* Override any repositioning of the body from the default style.
+ * Also, make the font size bigger so it's more readable on small screens.
+ */
+body, body.menu0, body.menu1, body.menu2, body.menu3 {
+   font-size: 26pt;
+   margin: 0;
+   border: 0;
+}
+
+
+
+/* Move the menubar to the bottom of the page for nicer small-screen
+ * navigation.
+ * Override any positioning information from the default style.
+ */
+#stdinfo div#menu, #stdinfo div#menu.menu0, #stdinfo div#menu.menu1, #stdinfo div#menu.menu2, #stdinfo div#menu.menu3 {
+   position: static;
+
+   height: auto;
+   top: auto;
+   border-top: 2px solid #fff;
+
+   margin-top: 1em;
+   margin-bottom: 0;
+   margin-left: auto;
+   margin-right: auto;
+   padding: 1em 0;
+
+   /* The menu is no longer fixed; make sure the background flows properly */
+   background-color: transparent;
+   background-image: inherit;
+}
+
+#stdinfo #menu ul {
+   float: none;
+   height: auto;
+}
+
+#stdinfo #menu ul li {
+   display: block;
+   margin: 0.5em;
+}
+
+#stdinfo #menu li a {
+   padding: 0;
+   float: none;
+   height: auto;
+   line-height: normal;
+}
+
+/* A menu separator is desirable */
+#stdinfo #menu ul + ul {
+   border-top: thin solid #ccc
+}
+
+
+#stdinfo #footer {
+   position: inherit; 
+   top: auto;
+   font-size: 65%;
+}
+
+#stdinfo #footer .lastModified {
+   clear: both;
+}
+
+#stdinfo #footer .validation img {
+   width: 176px;
+   height: 62px;
+}
+
+
+
+hr {
+   display: none;
+}

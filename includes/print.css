@@ -1,0 +1,28 @@
+/* Override any repositioning of the body from the default style.
+ * Ensure the font size and colour against the background are appropriate
+ * for printouts.
+ */
+body, body.menu0, body.menu1, body.menu2, body.menu3 {
+   font-size: 12pt;
+   margin: 0;
+   border: none;
+   background-color: #FFF;
+   color: #000;
+}
+
+
+/* Make all links the same colour; who cares whether they've been visited
+   on a printout? */
+a, a:link, a:visited, a:hover, a:active {
+   color: #000;
+}
+
+
+/* Hide the menu bar and footer boilerplate from printouts */
+#stdinfo {
+   position: static;
+   display: none;
+   width: 0;
+   margin: 0;
+   padding: 0;
+}
