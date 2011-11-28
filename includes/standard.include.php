@@ -1,35 +1,12 @@
 <?php
 
-// First, take care of information that needs to be done for every page.
+require("directory_manip.php");
 
-// Assume that the directory containing this file is one level higher
-// than the root directory for this webpage.
-// What will that root path be?
-define("ROOT_PATH", dirname(dirname(__FILE__)));
+// First, take care of information that needs to be readily available for every page.
 
-// Grab each element of the URI following the base name.
-$reqarr = preg_split( "/\//", $_SERVER["REQUEST_URI"], null, PREG_SPLIT_NO_EMPTY );
-
-// Modify each so they form a cumulative URI chain
-$req_count = count($reqarr);
-for ($i = 1; $i < $req_count; $i++) {
-   $reqarr[$i] = $reqarr[$i-1].'/'.$reqarr[$i];
-}
-
-// Determine menu height / body height from the nesting level of 
-// the page's URL.
-$fullstr = $_SERVER["REQUEST_URI"];
-$isdir_lastreqelem = ( $fullstr[strlen($fullstr)-1] == '/' );
-
-$num_menus = $req_count;
-if (! $isdir_lastreqelem) {
-   $num_menus--;
-}
-
-
-
-// Now, functions to output info that is the same per page,
-// or is calculated the same per page.
+define("ROOT_PATH", $_SERVER["DOCUMENT_ROOT"]);
+$reqarr = list_paths($_SERVER["REQUEST_URI"]);
+$num_menus = get_menu_depth($_SERVER["REQUEST_URI"]);
 
 
 // Outputs the DOCTYPE and opening html tag,
