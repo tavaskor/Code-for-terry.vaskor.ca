@@ -5,6 +5,15 @@
  * The basic horizontal menubar with highlighting for link hovering is based on 
  * http://css.maxdesign.com.au/listamatic/horizontal03.htm
  */
+ 
+ .main-background-panel(@z: 0, @default-colour: #036, @image: url('/includes/background')) {
+     z-index: @z;
+     background-color: @default-colour;
+     background-image: @image;
+ }
+ 
+ @menu-height: 35px;
+ @menu-item-height: 20px;
 
 html {
    font-family: arial, helvetica, sans-serif;
@@ -16,8 +25,7 @@ html {
     * behind the menu with the rest of the page.
     * Since the image is dark, make the text over top of it bright
     */
-   background-color: #036;
-   background-image: url('/includes/background');
+   .main-background-panel();
    background-attachment: fixed;
    color: #FFF;
 }
@@ -26,14 +34,9 @@ body {
    min-width: 400px;
    padding: 1.3ex;
 
-   /* Move the body away from the header/menu bar at the top;
-      this will be forced into place "outside" of the body */
-/*   margin-top: 70px; */
- 
    /* Add a stylish border around this */
    margin: 4px;
    border: 1px solid #CCC;
-
 }
 
 /* normalize monospace sizing
@@ -56,9 +59,7 @@ tt, pre, code, kbd, samp {
    min-width: 100%;
 
    /* Make the body scroll behind the menu */
-   z-index: 1;
-   background-color: #036;
-   background-image: url('/includes/background');
+   .main-background-panel(1);
    border-bottom: 1px solid #CCC;
 
    /* Required to keep the "scroll-behind" effect working in Safari (4.0.3) */
@@ -78,7 +79,7 @@ tt, pre, code, kbd, samp {
    margin: 0;
    padding: 0;
    width: 100%;
-   height: 35px;
+   height: @menu-height;
    display: block;
 
    /* Attempting not to have menus line wrap */
@@ -90,6 +91,7 @@ tt, pre, code, kbd, samp {
 }
 
 
+@menu-box-border-rounding-radius: 3px;
 #stdinfo #menu li a, #stdinfo #home a {
    padding: 0.2em 1em;
    color: #FFF;
@@ -100,65 +102,72 @@ tt, pre, code, kbd, samp {
     * Round the edges a bit in browsers that support it.
     */
    border: 3px solid #58B;
-   -webkit-border-radius: 3px;
-   -moz-border-radius: 3px;
-   border-radius: 3px;
+   -webkit-border-radius: @menu-box-border-rounding-radius;
+   -moz-border-radius: @menu-box-border-rounding-radius;
+   border-radius: @menu-box-border-rounding-radius;
 
    /* A height of 23px displays beautifully in Chrome.
     * Unfortunately, 22px is required for proper display in Firefox.
     * Unfortunately, 21px is required in IE. :(
     * Unfortunately, 20px is required in IE 9. :( :(
     */
-   height: 20px;
-   line-height: 20px;
+   height: @menu-item-height;
+   line-height: @menu-item-height;
    margin: 1px;
 
 }
 
+@highlight-transition-time: .3s;
 a {
    /* Make hover-over highlights etc. slightly delayed */
-   -webkit-transition: background-color .3s;
-   -moz-transition: background-color .3s;
-   -o-transition: background-color .3s;
-   transition: background-color .3s;
+   -webkit-transition: background-color @highlight-transition-time;
+   -moz-transition: background-color @highlight-transition-time;
+   -o-transition: background-color @highlight-transition-time;
+   transition: background-color @highlight-transition-time;
 
    /* Maybe this will work in the future? */
-   -webkit-transition: -webkit-tap-highlight-color .3s;
+   -webkit-transition: -webkit-tap-highlight-color @highlight-transition-time;
 }
 
 
+@menu-border-highlight-init: 3px solid #58B;
+@menu-border-highlight-end: 3px solid #9CF;
 /* Subtle animation for menu highlight */
 @-webkit-keyframes shimmer {
    0% {
-      border: 3px solid #58B;
+      border: @menu-border-highlight-init;
    }
    100% {
-      border: 3px solid #9CF;
+      border: @menu-border-highlight-end;
    }
 }
 @-moz-keyframes shimmer {
    0% {
-      border: 3px solid #58B;
+      border: @menu-border-highlight-init;
    }
    100% {
-      border: 3px solid #9CF;
+      border: @menu-border-highlight-end;
    }
 }
 
+.animation-setup(@name: shimmer, @duration: 1.5s, @iteration-count: infinite, @direction: alternate, @timing-function: ease-in-out) {
+    -webkit-animation-name: @name;
+   -webkit-animation-duration: @duration;
+   -webkit-animation-iteration-count: @iteration-count;
+   -webkit-animation-direction: @direction;
+   -webkit-animation-timing-function: @timing-function; 
+
+   -moz-animation-name: @name;
+   -moz-animation-duration: @duration;
+   -moz-animation-iteration-count: @iteration-count;
+   -moz-animation-direction: @direction;
+   -moz-animation-timing-function: @timing-function;
+}
 
 #stdinfo #menu li a:hover, #stdinfo #home a:hover {
-   -webkit-animation-name: shimmer;
-   -webkit-animation-duration: 1.5s;
-   -webkit-animation-iteration-count: infinite;
-   -webkit-animation-direction: alternate;
-   -webkit-animation-timing-function: ease-in-out; 
-
-   -moz-animation-name: shimmer;
-   -moz-animation-duration: 1.5s;
-   -moz-animation-iteration-count: infinite;
-   -moz-animation-direction: alternate;
-   -moz-animation-timing-function: ease-in-out;
+    .animation-setup();
 }
+
 
 
 
@@ -171,15 +180,19 @@ a {
    background-color: rgba(51, 102, 153, 0.5);
 }
 
+@standard-gradient: top right, ellipse, rgba(51, 102, 153, 1), rgba(51, 102, 153, 0);
+
+.background-gradient(@origin: top right, @style: ellipse, @colour1: rgba(51, 102, 153, 1), @colour2: rgba(51, 102, 153, 0)) {
+    background: -webkit-radial-gradient(@origin, @style, @colour1, @colour2);
+    background: -moz-radial-gradient(@origin, @style, @colour1, @colour2);
+}
 /* Override home and base with a gradient, if supported */
 #stdinfo #home * { 
-   background: -webkit-radial-gradient(top right, ellipse, rgba(51, 102, 153, 1), rgba(51, 102, 153, 0));
-   background: -moz-radial-gradient(top right, ellipse, rgba(51, 102, 153, 1), rgba(51, 102, 153, 0));
+   .background-gradient();
 }
 
 #stdinfo #menu li.base * {
-   background: -webkit-radial-gradient(top left, ellipse, rgba(51, 102, 153, 1), rgba(51, 102, 153, 0));
-   background: -moz-radial-gradient(top left, ellipse, rgba(51, 102, 153, 1), rgba(51, 102, 153, 0));
+   .background-gradient(top left);
 }
 
 #stdinfo #menu li.current * {
@@ -284,34 +297,37 @@ strong.error {
  * a corresponding body in class menuX.
  */
 body.menu0 {
-   margin-top: 0px;
+   margin-top: 0;
 }
 body.menu1 {
-   margin-top: 35px;
+   margin-top: @menu-height;
 }
 body.menu2 {
-   margin-top: 70px;
+   margin-top: @menu-height * 2;
 }
 body.menu3 {
-   margin-top: 105px;
+   margin-top: @menu-height * 3;
 }
 body.menu4 {
-   margin-top: 140px;
+   margin-top: @menu-height * 4;
+}
+body.menu5 {
+   margin-top: @menu-height * 5;
 }
 
 
 #stdinfo div#menu.menu0 {
-   height: 0px;
+   height: 0;
 }
 #stdinfo div#menu.menu1 {
-   height: 35px;
+   height: @menu-height;
 }
 #stdinfo div#menu.menu2 {
-   height: 70px;
+   height: @menu-height * 2;
 }
 #stdinfo div#menu.menu3 {
-   height: 105px;
+   height: @menu-height * 3;
 }
 #stdinfo div#menu.menu4 {
-   height: 140px;
+   height: @menu-height * 4;
 }

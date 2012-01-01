@@ -30,12 +30,14 @@ function print_init() {
    echo '   <link rel="icon" type="image/png" href="/favicon.png" />',"\n";
 
    // Now include CSS information.
-   echo '   <link rel="stylesheet" type="text/css" href="/includes/default.css" />',"\n";
-
+   echo '   <link rel="stylesheet/less" type="text/css" href="/includes/default.less" />',"\n";
 
    // Then, do modifications for special domains.
    echo '   <link rel="stylesheet" type="text/css" href="/includes/print.css" media="print" />',"\n";
    echo '   <link rel="stylesheet" type="text/css" href="/includes/handheld.css" media="handheld" />',"\n";
+
+   // And then include the less parser.
+   echo '   <script src="/includes/less.js" type="text/javascript"></script>',"\n";
 
 
    // Conditionally include a special line for formatting on iPod or iPhone.

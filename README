@@ -1,0 +1,5 @@
+This contains some of the base files for my website, used to generate
+most of the boilerplate content and to style the pages.
+
+There are external dependencies which need to be added:
+* less.js, from http://lesscss.org/
