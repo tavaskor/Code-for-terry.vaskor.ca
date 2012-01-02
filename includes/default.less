@@ -5,15 +5,42 @@
  * The basic horizontal menubar with highlighting for link hovering is based on 
  * http://css.maxdesign.com.au/listamatic/horizontal03.htm
  */
+ @import "shared.less";
  
- .main-background-panel(@z: 0, @default-colour: #036, @image: url('/includes/background')) {
+.main-background-panel(@z: 0, @default-colour: #036, @image: url('/includes/background')) {
      z-index: @z;
      background-color: @default-colour;
      background-image: @image;
- }
+}
  
- @menu-height: 35px;
- @menu-item-height: 20px;
+@menu-height: 35px;
+@menu-item-height: 20px;
+ 
+@standard-text-colour: #FFF;
+@error-text-colour: #B11;
+@standard-bordering-colour: @standard-separator-colour;
+
+@dark-blue: #369;
+@medium-blue: #69C;
+@light-blue: #9CF;
+@menu-item-bordering-colour: #58B;
+
+@menu-item-selected-highlight-colour: @light-blue;
+@menu-item-home-default-colour: fadeout(@dark-blue, 50%);
+@menu-item-home-preferred-gradient-colour1: fadeout(@dark-blue, 0%);
+@menu-item-home-preferred-gradient-colour2: fadeout(@dark-blue, 100%);
+@menu-item-current-page-colour: @dark-blue;
+@menu-link-hover-colour: @medium-blue;
+@menu-link-active-colour: @light-blue;
+@non-menu-link-hover-colour: fadeout(@medium-blue, 81%);
+@non-menu-link-active-colour: fadeout(@light-blue, 75%);
+
+@standard-border: 1px solid @standard-bordering-colour;
+
+@menu-border-partial: 3px solid;
+@menu-item-border: @menu-border-partial @menu-item-bordering-colour;
+@menu-border-highlight-init: @menu-item-border;
+@menu-border-highlight-end: @menu-border-partial @menu-item-selected-highlight-colour;
 
 html {
    font-family: arial, helvetica, sans-serif;
@@ -27,7 +54,7 @@ html {
     */
    .main-background-panel();
    background-attachment: fixed;
-   color: #FFF;
+   color: @standard-text-colour;
 }
 
 body {
@@ -36,7 +63,7 @@ body {
 
    /* Add a stylish border around this */
    margin: 4px;
-   border: 1px solid #CCC;
+   border: @standard-border;
 }
 
 /* normalize monospace sizing
@@ -60,7 +87,7 @@ tt, pre, code, kbd, samp {
 
    /* Make the body scroll behind the menu */
    .main-background-panel(1);
-   border-bottom: 1px solid #CCC;
+   border-bottom: @standard-border;
 
    /* Required to keep the "scroll-behind" effect working in Safari (4.0.3) */
    opacity: 1; 
@@ -94,14 +121,14 @@ tt, pre, code, kbd, samp {
 @menu-box-border-rounding-radius: 3px;
 #stdinfo #menu li a, #stdinfo #home a {
    padding: 0.2em 1em;
-   color: #FFF;
+   color: @standard-text-colour;
    text-decoration: none;
    float: left;
 
    /* Provide an outline colour for the menu items.
     * Round the edges a bit in browsers that support it.
     */
-   border: 3px solid #58B;
+   border: @menu-item-border;
    -webkit-border-radius: @menu-box-border-rounding-radius;
    -moz-border-radius: @menu-box-border-rounding-radius;
    border-radius: @menu-box-border-rounding-radius;
@@ -120,18 +147,16 @@ tt, pre, code, kbd, samp {
 @highlight-transition-time: .3s;
 a {
    /* Make hover-over highlights etc. slightly delayed */
+   transition: background-color @highlight-transition-time;
    -webkit-transition: background-color @highlight-transition-time;
    -moz-transition: background-color @highlight-transition-time;
    -o-transition: background-color @highlight-transition-time;
-   transition: background-color @highlight-transition-time;
 
    /* Maybe this will work in the future? */
    -webkit-transition: -webkit-tap-highlight-color @highlight-transition-time;
 }
 
 
-@menu-border-highlight-init: 3px solid #58B;
-@menu-border-highlight-end: 3px solid #9CF;
 /* Subtle animation for menu highlight */
 @-webkit-keyframes shimmer {
    0% {
@@ -177,12 +202,11 @@ a {
 
 
 #stdinfo #menu li.base *, #stdinfo #home * {
-   background-color: rgba(51, 102, 153, 0.5);
+   background-color: @menu-item-home-default-colour;
 }
 
-@standard-gradient: top right, ellipse, rgba(51, 102, 153, 1), rgba(51, 102, 153, 0);
-
-.background-gradient(@origin: top right, @style: ellipse, @colour1: rgba(51, 102, 153, 1), @colour2: rgba(51, 102, 153, 0)) {
+.background-gradient(@origin: top right, @style: ellipse, @colour1: @menu-item-home-preferred-gradient-colour1, @colour2: @menu-item-home-preferred-gradient-colour2) {
+    background: -o-radial-gradient(@origin, @style, @colour1, @colour2);
     background: -webkit-radial-gradient(@origin, @style, @colour1, @colour2);
     background: -moz-radial-gradient(@origin, @style, @colour1, @colour2);
 }
@@ -196,35 +220,35 @@ a {
 }
 
 #stdinfo #menu li.current * {
-   background-color: rgb(51, 102, 153);
+   background-color: @menu-item-current-page-colour;
 }
 
 /* Provide hover/active colours on the menu, and more subtle ones
 for links elsewhere. */
 
 #stdinfo #menu a:hover {
-   background-color: #69C;
+   background-color: @menu-link-hover-colour;
 }
 
 #stdinfo #menu a:active {
-   background-color: #9CF;
+   background-color: @menu-link-active-colour;
 }
 
 a:hover
 {
-   background-color: rgba(102, 153, 204, 0.19);
+   background-color: @non-menu-link-hover-colour;
 }
 
 a:active
 {
-   background-color: rgba(153, 204, 255, 0.25);
+   background-color: @non-menu-link-active-colour;
 }
 
 /* There's no concept of hovering, but show iP(od|ad|hone) 
  * an appropriate highlight colour for taps.
  */
 a {
-   -webkit-tap-highlight-color: rgba(153, 204, 255, 0.25);
+   -webkit-tap-highlight-color: @non-menu-link-active-colour;
 }
 
 
@@ -238,15 +262,15 @@ a {
 }
 
 #stdinfo #footer .validation img {
-   width: 88px;
-   height: 31px;
+   width: @standard-validator-img-width;
+   height: @standard-validator-img-height;
    float: left;
    padding: 3px;
 }
 
 #stdinfo #footer p {
    font-size: 80%;
-   color: #CCC;
+   color: @standard-bordering-colour;
    text-align: center;
    clear: both;
    padding: 0;
@@ -265,7 +289,7 @@ a {
 /* Other general styles */
 
 a {
-   color: #FFFFFF;
+   color: @standard-text-colour;
 }
 
 h1 {
@@ -277,7 +301,7 @@ h1 {
 /* For debugging error output */
 strong.error {
    font-weight: 900;
-   color: #BB1111;
+   color: @error-text-colour;
 }
 
 /* Rare browsers want to underline images that are links;
@@ -330,4 +354,122 @@ body.menu5 {
 }
 #stdinfo div#menu.menu4 {
    height: @menu-height * 4;
+}
+
+
+/* Overrides for printing. */
+@media print {
+    /* Override any repositioning of the body from the default style.
+     * Ensure the font size and colour against the background are appropriate
+     * for printouts.
+     */
+    body, body.menu0, body.menu1, body.menu2, body.menu3 {
+       font-size: 12pt;
+       margin: 0;
+       border: none;
+       background-color: #FFF;
+       color: #000;
+    }
+
+
+    /* Make all links the same colour; who cares whether they've been visited
+       on a printout? */
+    a, a:link, a:visited, a:hover, a:active {
+       color: #000;
+    }
+
+
+    /* Hide the menu bar and footer boilerplate from printouts */
+    #stdinfo {
+       position: static;
+       display: none;
+       width: 0;
+       margin: 0;
+       padding: 0;
+    }
+}
+
+
+/* Overrides for handheld media, including iPhone. */
+.handheld-info() {
+    /* Override any repositioning of the body from the default style.
+     * Also, make the font size bigger so it's more readable on small screens.
+     */
+    body, body.menu0, body.menu1, body.menu2, body.menu3 {
+       font-size: 26pt;
+       margin: 0;
+       border: 0;
+    }
+
+
+
+    /* Move the menubar to the bottom of the page for nicer small-screen
+     * navigation.
+     * Override any positioning information from the default style.
+     */
+    #stdinfo div#menu, #stdinfo div#menu.menu0, #stdinfo div#menu.menu1, #stdinfo div#menu.menu2, #stdinfo div#menu.menu3 {
+       position: static;
+
+       height: auto;
+       top: auto;
+       border-top: 2px solid #fff;
+
+       margin-top: 1em;
+       margin-bottom: 0;
+       margin-left: auto;
+       margin-right: auto;
+       padding: 1em 0;
+
+       /* The menu is no longer fixed; make sure the background flows properly */
+       background-color: transparent;
+       background-image: inherit;
+    }
+
+    #stdinfo #menu ul {
+       float: none;
+       height: auto;
+    }
+
+    #stdinfo #menu ul li {
+       display: block;
+       margin: 0.5em;
+    }
+
+    #stdinfo #menu li a {
+       padding: 0;
+       float: none;
+       height: auto;
+       line-height: normal;
+    }
+
+    /* A menu separator is desirable */
+    #stdinfo #menu ul + ul {
+       border-top: thin solid @standard-separator-colour;
+    }
+
+
+    #stdinfo #footer {
+       position: inherit; 
+       top: auto;
+       font-size: 65%;
+    }
+
+    #stdinfo #footer .lastModified {
+        clear: both;
+    }
+
+    #stdinfo #footer .validation img {
+       width: @standard-validator-img-width * 2;
+       height: @standard-validator-img-height * 2;
+    }
+
+    hr {
+       display: none;
+    }
+}
+@media only screen and (max-device-width: 480px) {
+    .handheld-info();
+}
+@media handheld {
+    .handheld-info();
 }

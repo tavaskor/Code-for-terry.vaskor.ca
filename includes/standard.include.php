@@ -32,25 +32,8 @@ function print_init() {
    // Now include CSS information.
    echo '   <link rel="stylesheet/less" type="text/css" href="/includes/default.less" />',"\n";
 
-   // Then, do modifications for special domains.
-   echo '   <link rel="stylesheet" type="text/css" href="/includes/print.css" media="print" />',"\n";
-   echo '   <link rel="stylesheet" type="text/css" href="/includes/handheld.css" media="handheld" />',"\n";
-
    // And then include the less parser.
    echo '   <script src="/includes/less.js" type="text/javascript"></script>',"\n";
-
-
-   // Conditionally include a special line for formatting on iPod or iPhone.
-   $iphone_disp = false;
-   if (strpos($_SERVER['HTTP_USER_AGENT'], "iPhone") ||
-      strpos($_SERVER['HTTP_USER_AGENT'], "iPod")) {
-         $iphone_disp = true;
-      }
-
-   // Force use of the "handheld" style for iPhones.
-   if ($iphone_disp) {
-      echo '   <link rel="stylesheet" type="text/css" href="/includes/handheld.css" />',"\n";
-   }
 
    // Do a fix for IE to try to force it to render properly.
    // This will need to be updated as the javascript program is updated and/or IE
